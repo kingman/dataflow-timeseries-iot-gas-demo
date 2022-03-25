@@ -2,7 +2,7 @@
 
 #Part 1: install Chrome remote desktop
 sudo apt-get -y update
-sudo apt-get -y upgrade   
+sudo DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" --force-yes  
 
 sudo apt install --assume-yes wget
 wget https://dl.google.com/linux/direct/chrome-remote-desktop_current_amd64.deb

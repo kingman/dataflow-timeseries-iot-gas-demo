@@ -49,7 +49,7 @@ resource "google_compute_instance" "instance_with_ip" {
     }
 
     provisioner "file" {
-        source = "/home/michail/dataflow-timeseries-iot-gas-demo/terraform/scripts"
+        source = "./scripts"
         destination = "~/scripts"
         connection {
             type        = "ssh"
