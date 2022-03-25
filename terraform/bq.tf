@@ -1,5 +1,5 @@
 resource "google_storage_bucket" "foglamp_demo_main" {
-    name     = "foglamp_demo_main"
+    name     = "foglamp_demo_main_${var.PROJECT}"
     location = "${var.REGION}"
     uniform_bucket_level_access = true
 
