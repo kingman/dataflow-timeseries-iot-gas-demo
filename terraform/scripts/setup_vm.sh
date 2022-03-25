@@ -42,17 +42,15 @@ sudo add-apt-repository "deb http://archives.dianomic.com/foglamp/latest/ubuntu1
 
 sudo apt update
 
-sudo apt -y install foglamp foglamp-gui foglamp-north-gcp foglamp-south-opcua foglamp-filter-metadata
+sudo apt -y install foglamp foglamp-gui foglamp-south-opcua foglamp-filter-metadata
 
 wget http://archives.dianomic.com/foglamp/nightly/ubuntu1804/x86_64/foglamp-filter-rename-1.9.1-x86_64.deb
 sudo dpkg -i foglamp-filter-rename-1.9.1-x86_64.deb
 
 /usr/local/foglamp/bin/foglamp start
 
-wget https://pki.goog/roots.pem
-cp roots.pem /usr/local/foglamp/data/etc/certs/
-cp ~/foglamp_keys/rsa_private.pem /usr/local/foglamp/data/etc/certs/
-cp ~/foglamp_keys/rsa_public.pem /usr/local/foglamp/data/etc/certs/
+mkdir /usr/local/foglamp/data/etc/certs/json
+cp ~/certs/credentials.json /usr/local/foglamp/data/etc/certs/json/
 
 #Part 3: install Java
 sudo apt -y install openjdk-8-jdk
@@ -63,4 +61,4 @@ wget https://www.prosysopc.com/opcua/apps/JavaServer/dist/5.0.8-330/prosys-opc-u
 sudo chmod u=x prosys-opc-ua-simulation-server-linux-5.0.8-330.sh
 printf '\n\n\n\n\n\n\n\n\n1\n\n\n\n' | sudo ./prosys-opc-ua-simulation-server-linux-5.0.8-330.sh
 
-cp /opt/prosys-opc-ua-simulation-server/'Prosys OPC UA Simulation Server.desktop' ~/Desktop
+cp /opt/prosys-opc-ua-simulation-server/'Prosys OPC UA Simulation Server.desktop' ~/Desktop/OPC-UA-Sim

@@ -1,5 +1,5 @@
 PROJECT="${GOOGLE_CLOUD_PROJECT}"
 REGION="us-central1"
 ZONE="us-central1-a"
-USER="foglamp-demo"
+USER="${USER}"
 DATASET = "foglamp_demo"

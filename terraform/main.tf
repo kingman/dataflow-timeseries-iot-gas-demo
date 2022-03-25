@@ -9,19 +9,25 @@ resource "tls_private_key" "google_compute_engine_ssh" {
     rsa_bits  = 4096
 }
 
-resource "tls_private_key" "foglamp_rsa" {
-    algorithm = "RSA"
-    rsa_bits  = 2048
+resource "google_service_account" "foglamp-publisher" {
+  account_id   = "foglamp-publisher"
+  display_name = "FogLAMP Publisher"
 }
 
-resource "local_file" "foglamp_rsa_public" {
-    content = "${tls_private_key.foglamp_rsa.public_key_pem}"
-    filename = "./foglamp_keys/rsa_public.pem"
+resource "google_project_iam_member" "foglamp-publisher" {
+  project = var.PROJECT
+  role    = "roles/pubsub.publisher"
+  member  = "serviceAccount:${google_service_account.foglamp-publisher.email}"
 }
 
-resource "local_file" "foglamp_rsa_private" {
-    content = "${tls_private_key.foglamp_rsa.private_key_pem}"
-    filename = "./foglamp_keys/rsa_private.pem"
+resource "google_service_account_key" "foglamp-publisher" {
+  service_account_id = google_service_account.foglamp-publisher.name
+  public_key_type    = "TYPE_X509_PEM_FILE"
+}
+
+resource "local_file" "foglamp-publisher" {
+    content  = base64decode(google_service_account_key.foglamp-publisher.private_key)
+    filename = "./certs/credentials.json"
 }
 
 resource "google_compute_instance" "instance_with_ip" {
@@ -60,8 +66,8 @@ resource "google_compute_instance" "instance_with_ip" {
     }
 
     provisioner "file" {
-        source = "./foglamp_keys"
-        destination = "~/foglamp_keys"
+        source = "./certs"
+        destination = "~/certs"
         connection {
             type        = "ssh"
             host        = google_compute_instance.instance_with_ip.network_interface.0.access_config.0.nat_ip
