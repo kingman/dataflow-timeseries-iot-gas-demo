@@ -49,8 +49,17 @@ sudo dpkg -i foglamp-filter-rename-1.9.1-x86_64.deb
 
 /usr/local/foglamp/bin/foglamp start
 
-mkdir /usr/local/foglamp/data/etc/certs/json
+sudo mkdir /usr/local/foglamp/data/etc/certs/json
 cp ~/certs/credentials.json /usr/local/foglamp/data/etc/certs/json/
+
+wget https://raw.githubusercontent.com/kingman/dataflow-timeseries-iot-gas-demo/foglamp-plugin/requirements.txt
+wget https://raw.githubusercontent.com/kingman/dataflow-timeseries-iot-gas-demo/foglamp-plugin/gcp-pubsub.py
+sudo pip3 install --upgrade pip
+pip3 install -Ir requirements.txt --user --no-cache-dir
+
+sudo mkdir /usr/local/foglamp/python/foglamp/plugins/north/gcp-pubsub
+sudo touch /usr/local/foglamp/python/foglamp/plugins/north/gcp-pubsub/__init__.py
+sudo cp $HOME/gcp-pubsub.py /usr/local/foglamp/python/foglamp/plugins/north/gcp-pubsub/gcp-pubsub.py
 
 #Part 3: install Java
 sudo apt -y install openjdk-8-jdk
