@@ -54,7 +54,7 @@ resource "google_compute_instance" "instance_with_ip" {
         ssh-keys = "${var.USER}:${tls_private_key.google_compute_engine_ssh.public_key_openssh}"
     }
 
-    metadata_startup_script = "scripts/setup_vm.sh"
+    metadata_startup_script = file("./scripts/setup_vm.sh")
 
 }
 
