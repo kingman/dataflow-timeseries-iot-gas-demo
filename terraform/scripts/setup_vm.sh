@@ -22,7 +22,13 @@ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg --install google-chrome-stable_current_amd64.deb
 sudo apt install --assume-yes --fix-broken
 
+sudo sed -i "s/User=%I/User=$USER/g" /lib/systemd/system/chrome-remote-desktop@.service
+
 #Part 2: install FogLAMP
+wget https://raw.githubusercontent.com/kingman/dataflow-timeseries-iot-gas-demo/main/foglamp-plugin/requirements.txt
+sudo pip3 install --upgrade pip
+sudo pip3 install -Ir requirements.txt --no-cache-dir
+
 sudo apt-get install --assume-yes debconf-utils
 
 ## set debconf values for Kerberos
@@ -50,13 +56,8 @@ sudo dpkg -i foglamp-filter-rename-1.9.1-x86_64.deb
 /usr/local/foglamp/bin/foglamp start
 
 sudo mkdir /usr/local/foglamp/data/etc/certs/json
-cp ~/certs/credentials.json /usr/local/foglamp/data/etc/certs/json/
 
-wget https://raw.githubusercontent.com/kingman/dataflow-timeseries-iot-gas-demo/main/foglamp-plugin/requirements.txt
 wget https://raw.githubusercontent.com/kingman/dataflow-timeseries-iot-gas-demo/main/foglamp-plugin/gcp-pubsub.py
-sudo pip3 install --upgrade pip
-sudo pip3 install -r requirements.txt
-
 sudo mkdir /usr/local/foglamp/python/foglamp/plugins/north/gcp-pubsub
 sudo touch /usr/local/foglamp/python/foglamp/plugins/north/gcp-pubsub/__init__.py
 sudo cp $HOME/gcp-pubsub.py /usr/local/foglamp/python/foglamp/plugins/north/gcp-pubsub/gcp-pubsub.py
