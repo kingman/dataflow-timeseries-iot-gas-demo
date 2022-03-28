@@ -54,41 +54,8 @@ resource "google_compute_instance" "instance_with_ip" {
         ssh-keys = "${var.USER}:${tls_private_key.google_compute_engine_ssh.public_key_openssh}"
     }
 
-    provisioner "file" {
-        source = "./scripts"
-        destination = "~/scripts"
-        connection {
-            type        = "ssh"
-            host        = google_compute_instance.instance_with_ip.network_interface.0.access_config.0.nat_ip
-            user        = "${var.USER}"
-            private_key = tls_private_key.google_compute_engine_ssh.private_key_pem
-        }
-    }
+    metadata_startup_script = "scripts/setup_vm.sh"
 
-    provisioner "file" {
-        source = "./certs"
-        destination = "~/certs"
-        connection {
-            type        = "ssh"
-            host        = google_compute_instance.instance_with_ip.network_interface.0.access_config.0.nat_ip
-            user        = "${var.USER}"
-            private_key = tls_private_key.google_compute_engine_ssh.private_key_pem
-        }
-    }
-
-    provisioner "remote-exec" {
-        inline = [
-            "cd ~/",
-            "chmod +x ~/scripts/setup_vm.sh",
-            "~/scripts/setup_vm.sh"
-        ]
-        connection {
-            type        = "ssh"
-            host        = google_compute_instance.instance_with_ip.network_interface.0.access_config.0.nat_ip
-            user        = "${var.USER}"
-            private_key = tls_private_key.google_compute_engine_ssh.private_key_pem
-        }
-    }
 }
 
 output "internal_ip" {
