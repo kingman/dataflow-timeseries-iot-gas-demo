@@ -55,7 +55,7 @@ cp ~/certs/credentials.json /usr/local/foglamp/data/etc/certs/json/
 wget https://raw.githubusercontent.com/kingman/dataflow-timeseries-iot-gas-demo/main/foglamp-plugin/requirements.txt
 wget https://raw.githubusercontent.com/kingman/dataflow-timeseries-iot-gas-demo/main/foglamp-plugin/gcp-pubsub.py
 sudo pip3 install --upgrade pip
-pip3 install -Ir requirements.txt --user --no-cache-dir
+sudo pip3 install -r requirements.txt
 
 sudo mkdir /usr/local/foglamp/python/foglamp/plugins/north/gcp-pubsub
 sudo touch /usr/local/foglamp/python/foglamp/plugins/north/gcp-pubsub/__init__.py

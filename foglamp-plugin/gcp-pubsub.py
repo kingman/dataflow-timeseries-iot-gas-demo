@@ -65,7 +65,7 @@ _DEFAULT_CONFIG = {
 
 def plugin_info():
     return {
-        'name': 'gcp',
+        'name': 'gcp-pubsub',
         'version': '1.9.2',
         'type': 'north',
         'interface': '1.0',
@@ -222,4 +222,3 @@ def plugin_shutdown(data):
 
 def plugin_reconfigure():
     pass
-
