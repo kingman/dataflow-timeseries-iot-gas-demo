@@ -33,6 +33,7 @@ resource "local_file" "foglamp-publisher" {
 resource "google_compute_instance" "instance_with_ip" {
     name         = "foglamp-demo-instance"
     machine_type = "e2-standard-2"
+    deletion_protection = false
 
     tags = ["http-server","https-server"]
 
