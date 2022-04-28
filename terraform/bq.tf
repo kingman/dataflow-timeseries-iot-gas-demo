@@ -115,3 +115,28 @@ resource "google_bigquery_table" "events_summary_view" {
 
     depends_on = [google_bigquery_table.measurements_raw_events]
 }
+
+resource "google_bigquery_table" "measurements_raw_events_duration" {
+    dataset_id = "${var.DATASET}"
+    table_id = "measurements_raw_events_duration"
+    deletion_protection = false
+
+    view {
+        use_legacy_sql = false
+        query = <<EOF
+            WITH T1 AS (
+                SELECT
+                    *,
+                    TIMESTAMP_DIFF(
+                        timestamp,
+                        FIRST_VALUE(timestamp) OVER (PARTITION BY event_id ORDER BY timestamp ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW),
+                        SECOND
+                    ) AS duration_seconds
+                FROM `sandbox-keyera-poc.foglamp_demo.measurements_raw_events`
+            )
+            SELECT * FROM T1
+        EOF
+    }
+
+    depends_on = [google_bigquery_table.measurements_raw_events]
+}
