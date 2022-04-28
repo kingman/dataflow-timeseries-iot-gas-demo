@@ -22,8 +22,6 @@ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo dpkg --install google-chrome-stable_current_amd64.deb
 sudo apt install --assume-yes --fix-broken
 
-sudo sed -i "s/User=%I/User=$USER/g" /lib/systemd/system/chrome-remote-desktop@.service
-
 #Part 2: install FogLAMP
 wget https://raw.githubusercontent.com/kingman/dataflow-timeseries-iot-gas-demo/main/foglamp-plugin/requirements.txt
 sudo pip3 install --upgrade pip
