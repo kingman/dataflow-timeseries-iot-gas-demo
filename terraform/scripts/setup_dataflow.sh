@@ -41,3 +41,17 @@ cd ./dataflow-timeseries-iot
                   --typeTwoComputationsLengthInSecs=600 \
                   --inputTopic=${TOPIC_RAW} \
                   --outputTable=${PROJECT}:${DATASET}.measurements_window_1min"
+
+cd ../
+cd ./dataflow-timeseries-iot
+./gradlew clean execute \
+     -Dexec.mainClass=com.foglamp.IoTStreamBigQuery \
+     -Dexec.args="--runner=DataflowRunner \
+                  --project=${PROJECT} \
+                  --region=${REGION} \
+                  --stagingLocation=${STAGING_LOCATION} \
+                  --tempLocation=${TEMP_LOCATION} \
+                  --typeOneComputationsLengthInSecs=600 \
+                  --typeTwoComputationsLengthInSecs=3600 \
+                  --inputTopic=${TOPIC_RAW} \
+                  --outputTable=${PROJECT}:${DATASET}.measurements_window_10min"
