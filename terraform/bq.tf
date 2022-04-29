@@ -132,7 +132,7 @@ resource "google_bigquery_table" "measurements_raw_events_duration" {
                         FIRST_VALUE(timestamp) OVER (PARTITION BY event_id ORDER BY timestamp ASC ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW),
                         SECOND
                     ) AS duration_seconds
-                FROM `sandbox-keyera-poc.foglamp_demo.measurements_raw_events`
+                FROM `${var.PROJECT}.${var.DATASET}.measurements_raw_events`
             )
             SELECT * FROM T1
         EOF
